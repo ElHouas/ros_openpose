@@ -62,11 +62,40 @@ class RealtimeVisualization():
         hand output ordering
         src: https://github.com/CMU-Perceptual-Computing-Lab/openpose/raw/master/doc/media/keypoints_hand.png
         We are using 5 LINE_STRIP to draw a hand
+        
+        Body21
+        {0,  "Nose"},
+        {1,  "Neck"},
+        {2,  "RShoulder"},
+        {3,  "RElbow"},
+        {4,  "RWrist"},
+        {5,  "LShoulder"},
+        {6,  "LElbow"},
+        {7,  "LWrist"},
+        {8,  "LowerAbs"},
+        {9,  "RHip"},
+        {10, "RKnee"},
+        {11, "RAnkle"},
+        {12, "LHip"},
+        {13, "LKnee"},
+        {14, "LAnkle"},
+        {15, "REye"},
+        {16, "LEye"},
+        {17, "REar"},
+        {18, "LEar"},
+        {19, "RealNeck"},
+        {20, "Top"},
+        {21, "Background"}
+        
         '''
-
+        #Body25
+        #self.upper_body_ids = [0, 1, 8]
+        #self.hands_ids = [4, 3, 2, 1, 5, 6, 7]
+        #self.legs_ids = [22, 11, 10, 9, 8, 12, 13, 14, 19]
+        #Body21 
         self.upper_body_ids = [0, 1, 8]
         self.hands_ids = [4, 3, 2, 1, 5, 6, 7]
-        self.legs_ids = [22, 11, 10, 9, 8, 12, 13, 14, 19]
+        self.legs_ids = [11, 10, 9, 8, 12, 13, 14]
         self.body_parts = [self.upper_body_ids, self.hands_ids, self.legs_ids]
 
         # number of fingers in a hand

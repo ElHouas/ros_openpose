@@ -28,7 +28,7 @@ Date: 2019/11/23
     <arg name="openpose_args" value="--hand --disable_multi_thread --model_folder /home/ravi/openpose/models/" />
   ?>
   <!-- full path to the model dir of openpose -->
-  <arg name="openpose_args" value="--model_folder /home/nvidia/openpose/models/" />
+  <arg name="openpose_args" value="--model_folder /home/nvidia/openpose/models/ --model_pose BODY_21A --tracking 1 --render_pose 1" />
 
   <!-- rostopic to publish the 3D skeleton data -->
   <arg name="pub_topic" default="/frame" />

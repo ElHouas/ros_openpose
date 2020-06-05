@@ -78,8 +78,8 @@ link_directories(
 
 ## Path to Caffe lib i.e., libcaffe.so
 ## find /home/ravi/tools/openpose -name libcaffe.so
-#set(CAFFE_LIB_FOLDER /home/ravi/tools/openpose/build/caffe/lib)
-#link_directories(${CAFFE_LIB_FOLDER})
+set(CAFFE_LIB_FOLDER /home/nvidia/openpose/build/caffe/lib)
+link_directories(${CAFFE_LIB_FOLDER})
 
 # Declare a C++ executable and
 # specify libraries to link a executable target against
