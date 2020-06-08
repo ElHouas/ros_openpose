@@ -25,7 +25,6 @@ Date: 2019/11/23
   hence set the flag. -->
   <arg name="no_depth" default="true" />
   <arg name="skeleton" default="false" />
-  <arg name="skeleton_hands" default="false" />
 
   <!-- no RViz support -->
   <arg name="rviz" default="false" />
@@ -50,7 +49,6 @@ Date: 2019/11/23
     <arg name="id_text_size" value="$(arg id_text_size)" />
     <arg name="openpose_args" value="$(arg openpose_args)" />
     <arg name="id_text_offset" value="$(arg id_text_offset)" />
-    <arg name="skeleton_hands" value="$(arg skeleton_hands)" />
     <arg name="cam_info_topic" value="$(arg cam_info_topic)" />
     <arg name="skeleton_line_width" value="$(arg skeleton_line_width)" />
   </include>

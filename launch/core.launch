@@ -18,7 +18,6 @@ Date: 2020/03/02
   <arg name="openpose_args" default="" />
   <arg name="cam_info_topic" default="" />
   <arg name="id_text_offset" default="" />
-  <arg name="skeleton_hands" default="" />
   <arg name="skeleton_line_width" default="" />
 
   <!-- invoke rosOpenpose node -->
@@ -39,7 +38,6 @@ Date: 2020/03/02
         <param name="pub_topic" value="$(arg pub_topic)" />
         <param name="id_text_size" value="$(arg id_text_size)" />
         <param name="id_text_offset" value="$(arg id_text_offset)" />
-        <param name="skeleton_hands" value="$(arg skeleton_hands)" />
         <param name="skeleton_line_width" value="$(arg skeleton_line_width)" />
       </node>
     </group>

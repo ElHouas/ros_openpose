@@ -15,12 +15,11 @@ from visualization_msgs.msg import Marker, MarkerArray
 
 
 class RealtimeVisualization():
-    def __init__(self, ns, frame_topic, skeleton_frame, id_text_size, id_text_offset, skeleton_hands, skeleton_line_width):
+    def __init__(self, ns, frame_topic, skeleton_frame, id_text_size, id_text_offset, skeleton_line_width):
         self.ns = ns
         self.skeleton_frame = skeleton_frame
         self.id_text_size = id_text_size
         self.id_text_offset = id_text_offset
-        self.skeleton_hands = skeleton_hands
         self.skeleton_line_width = skeleton_line_width
 
         # define a few colors we are going to use later on
@@ -65,23 +64,12 @@ class RealtimeVisualization():
         {21, "Background"}
         
         '''
-        #Body25
-        #self.upper_body_ids = [0, 1, 8]
-        #self.hands_ids = [4, 3, 2, 1, 5, 6, 7]
-        #self.legs_ids = [22, 11, 10, 9, 8, 12, 13, 14, 19]
         #Body21 
         self.upper_body_ids = [0, 1, 8]
         self.hands_ids = [4, 3, 2, 1, 5, 6, 7]
         self.legs_ids = [11, 10, 9, 8, 12, 13, 14]
         self.body_parts = [self.upper_body_ids, self.hands_ids, self.legs_ids]
 
-        # number of fingers in a hand
-        self.fingers = 5
-
-        # number of keypoints to denote a finger
-        self.count_keypoints_one_finger = 5
-
-        self.total_finger_kepoints = self.fingers * self.count_keypoints_one_finger
 
         # write person id on the top of his head
         self.nose_id = 0
@@ -144,40 +132,13 @@ class RealtimeVisualization():
             body_marker = [self.create_marker(marker_counter + idx, marker_color, Marker.LINE_STRIP, self.skeleton_line_width, now) for idx in range(len(self.body_parts))]
             marker_counter += len(self.body_parts)
 
-            # assign 3D posisudo apt-get clean
-tions to each body part
+            # assign 3D positions to each body part
             # make sure to consider only valid body parts
             for index, body_part in enumerate(self.body_parts):
                 body_marker[index].points = [person.bodyParts[idx].point for idx in body_part if self.isValid(person.bodyParts[idx])]
 
             marker_array.markers.extend(body_marker)
 
-            if self.skeleton_hands:
-                left_hand = [self.create_marker(marker_counter + idx, marker_color, Marker.LINE_STRIP, self.skeleton_line_width, now) for idx in range(self.fingers)]
-                marker_counter += self.fingers
-
-                right_hand = [self.create_marker(marker_counter + idx, marker_color, Marker.LINE_STRIP, self.skeleton_line_width, now) for idx in range(self.fingers)]
-                marker_counter += self.fingers
-
-                keypoint_counter = 0
-                for idx in range(self.total_finger_kepoints):
-                    strip_id = idx / self.count_keypoints_one_finger
-                    temp_id = idx % self.count_keypoints_one_finger
-                    if temp_id == 0:
-                        point_id = temp_id
-                    else:
-                        keypoint_counter += 1
-                        point_id = keypoint_counter
-
-                    leftHandPart = person.leftHandParts[point_id]
-                    rightHandPart = person.rightHandParts[point_id]
-                    if self.isValid(leftHandPart):
-                        left_hand[strip_id].points.append(leftHandPart.point)
-
-                    if self.isValid(rightHandPart):
-                        right_hand[strip_id].points.append(rightHandPart.point)
-                marker_array.markers.extend(left_hand)
-                marker_array.markers.extend(right_hand)
 
             person_id = self.create_marker(marker_counter, marker_color, Marker.TEXT_VIEW_FACING, self.id_text_size, now)
             marker_counter += 1
@@ -207,9 +168,8 @@ if __name__ == '__main__':
     skeleton_frame = rospy.get_param('~frame_id')
     id_text_size = rospy.get_param('~id_text_size')
     id_text_offset = rospy.get_param('~id_text_offset')
-    skeleton_hands = rospy.get_param('~skeleton_hands')
     skeleton_line_width = rospy.get_param('~skeleton_line_width')
 
     # instantiate the RealtimeVisualization class
-    visualization = RealtimeVisualization(ns, frame_topic, skeleton_frame, id_text_size, id_text_offset, skeleton_hands, skeleton_line_width)
+    visualization = RealtimeVisualization(ns, frame_topic, skeleton_frame, id_text_size, id_text_offset,  skeleton_line_width)
     visualization.spin()
