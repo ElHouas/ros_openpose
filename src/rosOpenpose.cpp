@@ -276,20 +276,12 @@ void configureOpenPose(op::Wrapper& opWrapper,
 // netInputSize
     const auto netInputSize = op::flagsToPoint(op::String(FLAGS_net_resolution), "-1x368");
 
-// faceNetInputSize
-    const auto faceNetInputSize = op::flagsToPoint(op::String(FLAGS_face_net_resolution), "368x368 (multiples of 16)");
-
-// handNetInputSize
-    const auto handNetInputSize = op::flagsToPoint(op::String(FLAGS_hand_net_resolution), "368x368 (multiples of 16)");
 // poseMode
     const auto poseMode = op::flagsToPoseMode(FLAGS_body);
 
 // poseModel
     const auto poseModel = op::flagsToPoseModel(op::String(FLAGS_model_pose));
     
-// tracking
-    //const auto tracking = op::flagsToTracking(op::String(FLAGS_tracking));
-
 
     // JSON saving
     if (!FLAGS_write_keypoint.empty())
@@ -308,10 +300,6 @@ void configureOpenPose(op::Wrapper& opWrapper,
     // >1 camera view?
     // const auto multipleView = (FLAGS_3d || FLAGS_3d_views > 1 || FLAGS_flir_camera);
     const auto multipleView = false;
-
-    // Face and hand detectors
-    const auto faceDetector = op::flagsToDetector(FLAGS_face_detector);
-    const auto handDetector = op::flagsToDetector(FLAGS_hand_detector);
 
     // Enabling Google Logging
     const bool enableGoogleLogging = true;
@@ -361,31 +349,6 @@ void configureOpenPose(op::Wrapper& opWrapper,
                                                   enableGoogleLogging};
     opWrapper.configure(wrapperStructPose);
 
-    // Face configuration (use op::WrapperStructFace{} to disable it)
-    const op::WrapperStructFace wrapperStructFace{FLAGS_face,
-                                                  faceDetector,
-                                                  faceNetInputSize,
-                                                  op::flagsToRenderMode(FLAGS_face_render,
-                                                                        multipleView,
-                                                                        FLAGS_render_pose),
-                                                  (float)FLAGS_face_alpha_pose,
-                                                  (float)FLAGS_face_alpha_heatmap,
-                                                  (float)FLAGS_face_render_threshold};
-    opWrapper.configure(wrapperStructFace);
-
-    // Hand configuration (use op::WrapperStructHand{} to disable it)
-    const op::WrapperStructHand wrapperStructHand{FLAGS_hand,
-                                                  handDetector,
-                                                  handNetInputSize,
-                                                  FLAGS_hand_scale_number,
-                                                  (float)FLAGS_hand_scale_range,
-                                                  op::flagsToRenderMode(FLAGS_hand_render,
-                                                                        multipleView,
-                                                                        FLAGS_render_pose),
-                                                  (float)FLAGS_hand_alpha_pose,
-                                                  (float)FLAGS_hand_alpha_heatmap,
-                                                  (float)FLAGS_hand_render_threshold};
-    opWrapper.configure(wrapperStructHand);
 
     // Extra functionality configuration (use op::WrapperStructExtra{} to disable it)
     const op::WrapperStructExtra wrapperStructExtra{FLAGS_3d,
