@@ -143,50 +143,6 @@ public:
     }
   }
 
-  template <typename ArrayOfArray>
-  void fillHandROSMsg(ArrayOfArray& handKeypoints, int person, int handPartCount)
-  {
-#pragma omp parallel for
-    for (auto handPart = 0; handPart < handPartCount; handPart++)
-    {
-      const auto baseIndex = handKeypoints[0].getSize(2) * (person * handPartCount + handPart);
-
-      // left hand
-      const auto xLeft = handKeypoints[0][baseIndex];
-      const auto yLeft = handKeypoints[0][baseIndex + 1];
-      const auto scoreLeft = handKeypoints[0][baseIndex + 2];
-
-      // right hand
-      const auto xRight = handKeypoints[1][baseIndex];
-      const auto yRight = handKeypoints[1][baseIndex + 1];
-      const auto scoreRight = handKeypoints[1][baseIndex + 2];
-
-      float point3DLeft[3];
-      float point3DRight[3];
-
-      // compute 3D point only if depth flag is set
-      if (!mNoDepth)
-      {
-        mSPtrCameraReader->compute3DPoint(xLeft, yLeft, point3DLeft);
-        mSPtrCameraReader->compute3DPoint(xRight, yRight, point3DRight);
-      }
-
-      mFrame.persons[person].leftHandParts[handPart].pixel.x = xLeft;
-      mFrame.persons[person].leftHandParts[handPart].pixel.y = yLeft;
-      mFrame.persons[person].leftHandParts[handPart].score = scoreLeft;
-      mFrame.persons[person].leftHandParts[handPart].point.x = point3DLeft[0];
-      mFrame.persons[person].leftHandParts[handPart].point.y = point3DLeft[1];
-      mFrame.persons[person].leftHandParts[handPart].point.z = point3DLeft[2];
-
-      mFrame.persons[person].rightHandParts[handPart].pixel.x = xRight;
-      mFrame.persons[person].rightHandParts[handPart].pixel.y = yRight;
-      mFrame.persons[person].rightHandParts[handPart].score = scoreRight;
-      mFrame.persons[person].rightHandParts[handPart].point.x = point3DRight[0];
-      mFrame.persons[person].rightHandParts[handPart].point.y = point3DRight[1];
-      mFrame.persons[person].rightHandParts[handPart].point.z = point3DRight[2];
-    }
-  }
-
   void workConsumer(const sPtrVecSPtrDatum& datumsPtr)
   {
     try
@@ -204,24 +160,19 @@ public:
 
         // accesing each element of the keypoints
         const auto& poseKeypoints = datumsPtr->at(0)->poseKeypoints;
-        const auto& handKeypoints = datumsPtr->at(0)->handKeypoints;
 
         // get the size
         const auto personCount = poseKeypoints.getSize(0);
         const auto bodyPartCount = poseKeypoints.getSize(1);
-        const auto handPartCount = handKeypoints[0].getSize(1);
-
+        
         mFrame.persons.resize(personCount);
 
         // update with the new data
         for (auto person = 0; person < personCount; person++)
         {
           mFrame.persons[person].bodyParts.resize(bodyPartCount);
-          mFrame.persons[person].leftHandParts.resize(handPartCount);
-          mFrame.persons[person].rightHandParts.resize(handPartCount);
 
           fillBodyROSMsg(poseKeypoints, person, bodyPartCount);
-          fillHandROSMsg(handKeypoints, person, handPartCount);
         }
 
         mFramePublisher.publish(mFrame);
