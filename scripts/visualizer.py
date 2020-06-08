@@ -40,33 +40,10 @@ class RealtimeVisualization():
             2) hands : from left-hand wrist to right-hand wrist
             3) legs : from left foot toe to right foot toe
 
-        See the link below to get the id of each joint as defined in Kinect v2
-        src: https://github.com/CMU-Perceptual-Computing-Lab/openpose/blob/master/doc/output.md#keypoint-ordering
-        Result for BODY_25 (25 body parts consisting of COCO + foot)
-        const std::map<unsigned int, std::string> POSE_BODY_25_BODY_PARTS {
-            { 0,      "Nose"},    {13,      "LKnee"}
-            { 1,      "Neck"},    {14,     "LAnkle"}
-            { 2, "RShoulder"},    {15,       "REye"}
-            { 3,    "RElbow"},    {16,       "LEye"}
-            { 4,    "RWrist"},    {17,       "REar"}
-            { 5, "LShoulder"},    {18,       "LEar"}
-            { 6,    "LElbow"},    {19,    "LBigToe"}
-            { 7,    "LWrist"},    {20,  "LSmallToe"}
-            { 8,    "MidHip"},    {21,      "LHeel"}
-            { 9,      "RHip"},    {22,    "RBigToe"}
-            {10,     "RKnee"},    {23,  "RSmallToe"}
-            {11,    "RAnkle"},    {24,      "RHeel"}
-            {12,      "LHip"},    {25, "Background"}
-
-
-        hand output ordering
-        src: https://github.com/CMU-Perceptual-Computing-Lab/openpose/raw/master/doc/media/keypoints_hand.png
-        We are using 5 LINE_STRIP to draw a hand
-        
         Body21
         {0,  "Nose"},
         {1,  "Neck"},
-        {2,  "RShoulder"},
+        {2, "RShoulder"},
         {3,  "RElbow"},
         {4,  "RWrist"},
         {5,  "LShoulder"},
@@ -167,7 +144,8 @@ class RealtimeVisualization():
             body_marker = [self.create_marker(marker_counter + idx, marker_color, Marker.LINE_STRIP, self.skeleton_line_width, now) for idx in range(len(self.body_parts))]
             marker_counter += len(self.body_parts)
 
-            # assign 3D positions to each body part
+            # assign 3D posisudo apt-get clean
+tions to each body part
             # make sure to consider only valid body parts
             for index, body_part in enumerate(self.body_parts):
                 body_marker[index].points = [person.bodyParts[idx].point for idx in body_part if self.isValid(person.bodyParts[idx])]
