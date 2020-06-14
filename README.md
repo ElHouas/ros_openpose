@@ -30,7 +30,11 @@ Note: Additionally, camera-specific ROS drivers such as following are required a
 * [iai_kinect2](https://github.com/code-iai/iai_kinect2): For Microsoft Kinect v2 Camera
 * [zed-ros-wrapper](https://github.com/stereolabs/zed-ros-wrapper): For Stereolabs ZED2 Camera
 
+```
+ sudo apt-get install ros-melodic-camera-info-manager
+ sudo apt-get install ros-melodic-camera-info-manager-py
 
+```
 ## Installation
 1. Make sure to download the complete repository. Use `git clone https://github.com/ravijo/ros_openpose.git` or download zip as per your convenience.
 1. Invoke catkin tool inside ros workspace i.e., `catkin_make`
