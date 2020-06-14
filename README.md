@@ -33,6 +33,8 @@ Note: Additionally, camera-specific ROS drivers such as following are required a
 ```
  sudo apt-get install ros-melodic-camera-info-manager
  sudo apt-get install ros-melodic-camera-info-manager-py
+  sudo apt-get install ros-melodic-codec-image-transport
+
 
 ```
 ## Installation
